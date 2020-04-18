@@ -1,0 +1,88 @@
+#!/bin/bash
+
+# Main programm for merge or shelling sub programms 
+
+# Help or usage message
+usage () {
+	cat <<- _EOF_
+	Usage: libraryan [OPTION]...
+	Manage and tags a files with the type
+	
+	  -i, --interactive		turn on interactive mode
+	  -h, --help			show this message
+	  -t, --transfer		transfer [and unzip] the files from gather dir in buffer dir
+	  -m, --tag, --mark		tags and write in hystory files and move them in topics dir
+	  --config			open config file to change
+	_EOF_
+	return
+}
+
+# Processing shels parametrs
+interactive=
+
+while [[ -n $1 ]]; do
+	case $1 in 
+		-i | --interactive)	interactive=1
+					;;
+		-h | --help)		usage
+					exit
+					;;
+		-t | --transfer)	bash ./transfer.sh
+					;;
+		-m | --tag | --mark)	bash ./tags.sh
+					;;
+		--config)		vim ./.config
+					exit
+					;;
+		*)			usage >&2
+					exit 1
+					;;
+	esac
+	shift
+done
+
+# Interactive mod
+
+comands () {
+        cat <<- _EOF_
+	Comands:
+
+	1, h, help		show this message
+	2, d, do		transfer and then mark the files
+	3, t, transfer		transfer [and unzip] the files from gather dir in buffer dir
+	4, m, tag, mark		tags and write in hystory files and move them in topics dir
+	5, config		open config file to change
+	0, q, Q			quit the program
+	_EOF_
+}
+
+if [[ -n $interactive ]]; then
+	comands
+	while true; do
+		echo "Enter (q|Q|0) for exit, (h|help|1) to show comands"
+		read -p "Enter comand -> "
+		case $REPLY in
+			0|Q|q)		echo "Program terminated."
+					exit
+					;;
+			1|h|help)	comands
+					continue
+					;;
+			2|d|do)		bash ./librarian --transfer --tag
+					continue
+					;;
+			3|t|transfer)	bash ./libraryan --transfer
+					continue
+					;;
+			4|m|tag|mark)	bash ./librarian --tag
+					continue
+					;;
+			5|config)	bash ./librarian --config
+					continue
+					;;
+			*)		echo "This commant is not exist"
+					continue
+					;;
+		esac
+	done
+fi

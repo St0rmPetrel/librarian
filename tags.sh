@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Destenation of config file
-CONFIG_PATH="./.librarian/config"
+CONFIG_PATH="./.config"
 
 # Read parameters
 read DESTINATION GATHER_POINTS FORMAT BUFFER <<< "$(bash $CONFIG_PATH)"
