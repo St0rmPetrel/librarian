@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Dest of project dir
+PR_DIR="$HOME/Projects/librarian"
+
 # Destenation of config file
-CONFIG_PATH="./.config"
+CONFIG_PATH="$PR_DIR/.config"
 
 # Read parameters
 read DESTINATION GATHER_POINTS FORMAT BUFFER <<< "$(bash $CONFIG_PATH)"

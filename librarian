@@ -2,6 +2,12 @@
 
 # Main programm for merge or shelling sub programms 
 
+# Where is this project
+PR_DIR="$HOME/Projects/librarian"
+if [ ! -d $PR_DIR ]; then
+	echo "Error project dir doesn't exist" >&2
+	exit 1
+fi
 # Help or usage message
 usage () {
 	cat <<- _EOF_
@@ -17,6 +23,19 @@ usage () {
 	return
 }
 
+# For saccess meseges
+suc_mes () {
+	if [ $? -eq 0 ]; then
+        	echo $1
+	fi
+}
+
+
+# If no arguments, start interactive mod
+if [[ ! -n $1 ]]; then
+	bash $PR_DIR/librarian --interactive
+fi
+
 # Processing shels parametrs
 interactive=
 
@@ -27,11 +46,14 @@ while [[ -n $1 ]]; do
 		-h | --help)		usage
 					exit
 					;;
-		-t | --transfer)	bash ./transfer.sh
+		-t | --transfer)	bash $PR_DIR/transfer.sh
+					suc_mes "Transfer was success"
 					;;
-		-m | --tag | --mark)	bash ./tags.sh
+		-m | --tag | --mark)	bash $PR_DIR/tags.sh
+					suc_mes "Taging was complete"
 					;;
-		--config)		vim ./.config
+		--config)		vim $PR_DIR/.config
+					suc_mes "Config file was opened"
 					exit
 					;;
 		*)			usage >&2
@@ -68,16 +90,16 @@ if [[ -n $interactive ]]; then
 			1|h|help)	comands
 					continue
 					;;
-			2|d|do)		bash ./librarian --transfer --tag
+			2|d|do)		bash $PR_DIR/librarian --transfer --tag
 					continue
 					;;
-			3|t|transfer)	bash ./libraryan --transfer
+			3|t|transfer)	bash $PR_DIR/librarian --transfer
 					continue
 					;;
-			4|m|tag|mark)	bash ./librarian --tag
+			4|m|tag|mark)	bash $PR_DIR/librarian --tag
 					continue
 					;;
-			5|config)	bash ./librarian --config
+			5|config)	bash $PR_DIR/librarian --config
 					continue
 					;;
 			*)		echo "This commant is not exist"
