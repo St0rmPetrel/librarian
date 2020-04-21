@@ -49,15 +49,12 @@ while [[ -n $1 ]]; do
 					;;
 		-t | --transfer)	bash $PR_DIR/transfer.sh
 					suc_mes "Transfer was success"
-					continue
 					;;
 		-m | --tag | --mark)	bash $PR_DIR/tags.sh
 					suc_mes "Taging was complete"
-					continue
 					;;
 		--retag)		bash $PR_DIR/retag.sh
 					suc_mes "Retaging was complete"
-					continue
 					;;
 		--config)		vim $PR_DIR/.config
 					suc_mes "Config file was opened"
